@@ -25,7 +25,7 @@ Run this command:
 ```
 flask run
 ```
-## How to run Docketfile:
+## How to run Docketfile :
 
 Run this command:
 
