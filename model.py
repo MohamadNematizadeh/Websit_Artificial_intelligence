@@ -11,6 +11,7 @@ class User(SQLModel, table=True):
     age: str = Field()
     city: str = Field()
     country: str = Field()
+    jon_time:str = Field()
     password_hash: str
 
 class RegisterModel(BaseModel):

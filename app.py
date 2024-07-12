@@ -1,11 +1,21 @@
 
 import os
-
+import cv2
+import numpy as np
 from flask import Flask, flash, render_template, request, redirect, url_for, session as flask_session
-from pydantic import ValidationError
-from deepface import DeepFace
+# from pydantic import ValidationError
+# from deepface import DeepFace
 from model import LoginModel,RegisterModel
-from data import Data
+from data import get_user_by_username,create_user,verify_password,engine
+from sqlmodel import Field, SQLModel, create_engine, Session, select
+from datetime import datetime 
+from PIL import Image
+from src.face_analysis import FaceAnalysis
+from utils.image import encode_image
+
+
+
+
 
 app = Flask("Face_Analyez")
 
@@ -13,6 +23,22 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.secret_key = 'supersecretkey'
 
+face_analysis = FaceAnalysis("models/det_10g.onnx", "models/genderage.onnx")
+
+def relative_time(data_time):
+      input_time = datetime.strptime(data_time,'%Y-%m-%d %H:%M:%S.%f')
+      current_time = datetime.now()
+      time_differ = current_time - input_time 
+      seconds = time_differ.total_seconds()
+      if seconds <60:
+            return f"{int(seconds)} seconds ago "
+      elif seconds <3600:
+            return f"{int(seconds // 60)} minutes ago"
+      elif seconds <86400:
+            return f"{int(seconds // 3600)} hours ago"
+      else:
+            return f"{int(seconds // 86400)} days ago"
+      
 def allowed_file(file):
      return True
 # Routes
@@ -46,11 +72,11 @@ def register():
             flash("Password is incorrect", "#ab0a0a")
             return render_template('register.html', error=str(e))
 
-        if Data.get_user_by_username(register_data.username):
+        if get_user_by_username(register_data.username):
             flash("Username already exists", "#ab0a0a")
             return render_template('register.html', error='')
         
-        Data.create_user(register_data)
+        create_user(register_data)
 
         flash("Your register done successfully", "success")
         return redirect(url_for('login'))
@@ -74,8 +100,8 @@ def login():
             flash("Type error", "yellow")
             return render_template('login.html', error=str(e))
 
-        user = Data.get_user_by_username(login_data.username)
-        if not user or not Data.verify_password(login_data.password, user.password_hash):
+        user = get_user_by_username(login_data.username)
+        if not user or not verify_password(login_data.password, user.password_hash):
             return render_template('login.html', error='Invalid credentials')
         
         flash("Welcome, you are logged in")
@@ -84,29 +110,27 @@ def login():
     flash("Password is incorrect", "#ab0a0a")
     
 
-
 @app.route("/upload", methods=['GET', 'POST'])
 def upload():
-    if request.method == "GET":
-        return render_template("upload.html")
-    elif request.method == "POST":
-        file = request.files['file']
-        if file.filename == '':
-            return redirect(url_for("upload"))
-        else:
-            if file and allowed_file(file.filename):
-                save_pth = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
-                print(save_pth)
-                file.save(save_pth)
-                print(save_pth)
-                result = DeepFace.analyze(
-                        img_path = save_pth, 
-                        actions = ['age'],
-                    )
-                age = result[0]['age']
-            print(save_pth)
+     if flask_session.get('user_id'):
+        if request.method == "GET":
+            return render_template("upload.html")
+        elif request.method == "POST":
+            input_image_file = request.files['image']
+            if input_image_file.filename == "":
+                return redirect(url_for('upload'))
+            else:
+                if input_image_file and allowed_file(input_image_file.filename):
+                    input_image = Image.open(input_image_file.stream)
+                    input_image = np.array(input_image)
+                    input_image = cv2.cvtColor(input_image,cv2.COLOR_BGR2RGB)
 
-            return render_template("result.html",result=age,image=save_pth )   
+                    output_image, genders, ages = face_analysis.detect_age_gender(input_image)
+                    image_uri = encode_image(output_image)
+
+                    return render_template("result.html", genders=genders, ages=ages, image_uri=image_uri)
+        else:
+            return redirect(url_for("index"))
            
 
 @app.route("/BMR",methods=['GET','POST'])
@@ -132,27 +156,25 @@ def  calculator_BMR():
         return render_template("bmr_result.html", bmr=bmr)
 
 
-@app.route("/read-yore-mind" , methods=["GET","POST"])
-def read_yore_mind():
-    if request.method == "POST":
-       number = request.form["number"]
-       return redirect(url_for("read_yore_mind_result",number=number))
+from model import User,RegisterModel
 
-    return render_template("read-yore-mind.html")
-@app.route("/mediapipe",methods=["GET"])
-def rmediapipe():
-    if request.method == "GET":
-        return render_template("mediapipe.html")
+@app.route("/admin")
+def admin():
+    with Session(engine) as db_session:
+        statement = select(User)
+        users = list(db_session.exec(statement))
+    return render_template("admin.html" , users=users)
 
 
-@app.route("/read-yore-mind/result")
-def read_yore_mind_result():
-    number = request.args.get("number")
-    return render_template("read-yore-mind-result.html",number=number)
-    
-
-
-
+@app.route("/admin_users")
+def admin_user():
+    with Session(engine) as db_session:
+        statement = select(User)
+        users = list(db_session.exec(statement))
+        for user in users:
+            user.jon_time = relative_time(data_time=user.jon_time)
+        
+    return render_template("admin_users.html",users=users)
 
 if __name__ == '__main__':
     app.run(debug=True)

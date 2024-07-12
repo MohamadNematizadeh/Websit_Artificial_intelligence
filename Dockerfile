@@ -1,11 +1,15 @@
 FROM python
 
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 -y
+
 WORKDIR /myapp
 
-COPY . /myapp
+COPY requirements.txt /myapp
 
 RUN pip install -r requirements.txt
 
-EXPOSE 80
+# COPY . /myapp
 
-CMD ["flask","run","--host","0.0.0.0","--port","80"]
+EXPOSE 5000
+
+CMD ["flask", "run", "--host", "0.0.0.0", "--port", "5000"]

@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>داشبورد مدریت وبسایت دستیار هوش</title>
+
+    <meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+    <meta name="author" content="Bootstrap Gallery" />
+    <link rel="canonical" href="https://www.bootstrap.gallery/">
+    <meta property="og:url" content="https://www.bootstrap.gallery">
+    <meta property="og:title" content="Admin Templates - Dashboard Templates | Bootstrap Gallery">
+    <meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
+    <meta property="og:type" content="Website">
+    <meta property="og:site_name" content="Bootstrap Gallery">
+    <link rel="shortcut icon" href="static/images/favicon.svg" />
+
+    <link rel="stylesheet" href="static/fonts/bootstrap/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="static/css/main.min.css" />
+    <link rel="stylesheet" href="static/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <div class="main-container">
+            <nav id="sidebar" class="sidebar-wrapper">
+                <div class="app-brand p-3 my-2">
+                    <p> وبسایت دستیار هوش</p>
+                </div>
+                <div class="sidebarMenuScroll">
+                    <ul class="sidebar-menu">
+                        <li class="active current-page">
+                            <a href="/admin">
+                                <i class="bi bi-bar-chart-line"></i>
+                                <span class="menu-text">خانه</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="admin_users">
+                                <i class="bi bi-shop-window"></i>
+                                <span class="menu-text">کاربران</span>
+                            </a>
+                        </li>
+                </div>
+            </nav>
+            <div class="app-container">
+                <div class="app-header d-flex align-items-center">
+                    <div class="d-flex">
+                        <button class="toggle-sidebar">
+                            <i class="bi bi-list lh-1"></i>
+                        </button>
+                        <button class="pin-sidebar">
+                            <i class="bi bi-list lh-1"></i>
+                        </button>
+                    </div>
+                    <h5 class="m-0 ms-2 fw-semibold">داشبورد مدریت وبسایت دستیار هوش</h5>
+                    <div class="header-actions">
+                        <div class="search-container d-xl-block d-none me-3">
+                            <input type="text" class="form-control" id="searchData" placeholder="جستجو" />
+                            <i class="bi bi-search"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="app-body">
+                <div class="row gx-4">
+                    <div class="col-xxl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3> کاربران</h3>
+
+                                <div class="table-outer">
+                                    <div class="table-responsive">
+
+                                        <table class="table align-middle truncate">
+                                            <thead>
+                                                <tr>
+
+                                                    <th>نام</th>
+                                                    <th>نام کاربری</th>
+                                                    <th>ایمیل</th>
+                                                    <th>سن</th>
+                                                    <th>شهر</th>
+                                                    <th>تاریخ</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for user in users %}
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex flex-row align-items-center">
+                                                            <p class="m-0">{{user.first_name}} {{user.last_name }}</p>
+                                                        </div>
+                                                    </td>
+                                                    <td><span class=""></span>{{user.username}}</td>
+                                                    <td><span class=""></span>{{user.email}}</td>
+                                                    <td><span class=""></span>{{user.age}}</td>
+                                                    <td><span class=""></span>{{user.city}}</td>
+                                                    <td><span class=""></span>{{user.jon_time}}</td>
+                                                </tr>
+                                                {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="app-footer">
+                <span class="small">© Bootstrap Gallery 2024</span>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/moment.min.js"></script>
+    <script src="static/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+    <script src="static/vendor/overlay-scroll/custom-scrollbar.js"></script>
+    <script src="static/vendor/apex/apexcharts.min.js"></script>
+    <script src="static/vendor/apex/custom/analytics/stats.js"></script>
+    <script src="static/vendor/apex/custom/analytics/sales.js"></script>
+    <script src="static/vendor/apex/custom/analytics/views.js"></script>
+    <script src="static/vendor/apex/custom/analytics/audiences.js"></script>
+    <script src="static/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+    <script src="static/vendor/jvectormap/world-mill-en.js"></script>
+    <script src="static/vendor/jvectormap/gdp-data.js"></script>
+    <script src="static/vendor/jvectormap/continents-mill.js"></script>
+    <script src="static/vendor/jvectormap/custom/world-map-markers4.js"></script>
+    <script src="static/vendor/rating/raty.js"></script>
+    <script src="static/vendor/rating/raty-custom.js"></script>
+    <script src="static/js/custom.js"></script>
+</body>
+
+</html>

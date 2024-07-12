@@ -1,18 +1,21 @@
 from sqlmodel import Field, SQLModel, create_engine, Session, select
 import bcrypt
+import datetime
 from model import User,RegisterModel
 
-DATABASE_URL = 'sqlite:///./data.db'
+# DATABASE_URL = "postgresql://akbar_agha:ramze_akbar_agha@some-postgres:5432/database_akbar_agha"
+DATABASE_URL = 'sqlite:///./database.db'
 engine = create_engine(DATABASE_URL, echo=True)
+
+# Create the database tables
 SQLModel.metadata.create_all(engine)
 
-class Data:                
-    def get_user_by_username(username: str):
-        with Session(engine) as db_session:
-            statement = select(User).where(User.username == username)
-            return db_session.exec(statement).first()
+def get_user_by_username(username: str):
+    with Session(engine) as db_session:
+        statement = select(User).where(User.username == username)
+        return db_session.exec(statement).first()
         
-    def create_user(user_data: RegisterModel):
+def create_user(user_data: RegisterModel):
         password_bytes = user_data.password.encode('utf-8')
         password_hash = bcrypt.hashpw(password_bytes, bcrypt.gensalt())
         user = User(
@@ -23,6 +26,7 @@ class Data:
             age=user_data.age,
             city=user_data.city,
             country=user_data.country,
+            jon_time = datetime.datetime.now(),
             password_hash=password_hash
         )
         with Session(engine) as db_session:
@@ -32,6 +36,6 @@ class Data:
         return user
 
 
-    def verify_password(password: str, password_hash: str) -> bool:
+def verify_password(password: str, password_hash: str) -> bool:
         password_bytes = password.encode('utf-8')
         return bcrypt.checkpw(password_bytes, password_hash)
