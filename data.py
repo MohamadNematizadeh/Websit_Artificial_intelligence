@@ -14,7 +14,7 @@ def get_user_by_username(username: str):
     with Session(engine) as db_session:
         statement = select(User).where(User.username == username)
         return db_session.exec(statement).first()
-        
+    
 def create_user(user_data: RegisterModel):
         password_bytes = user_data.password.encode('utf-8')
         password_hash = bcrypt.hashpw(password_bytes, bcrypt.gensalt())
