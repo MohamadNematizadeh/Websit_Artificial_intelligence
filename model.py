@@ -1,6 +1,7 @@
 from sqlmodel import Field, SQLModel, create_engine, Session, select
 import bcrypt
 from pydantic import BaseModel
+from datetime import datetime
 
 class User(SQLModel, table=True):
     id: int = Field(default=None, primary_key=True)
@@ -13,6 +14,13 @@ class User(SQLModel, table=True):
     country: str = Field()
     jon_time:str = Field()
     password_hash: str
+
+class Comment(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    content: str
+    timestamp: datetime = Field(default_factory=datetime.now)
+    user_id : int = Field(foreign_key="user.id")
+
 
 class RegisterModel(BaseModel):
     first_name: str 
