@@ -2,20 +2,27 @@
 import os
 import cv2
 import numpy as np
+from pydantic import ValidationError
+
+
+
 from flask import Flask, flash, render_template, request, redirect, url_for, session as flask_session
-# from pydantic import ValidationError
-# from deepface import DeepFace
-from model import LoginModel,RegisterModel
-from data import get_user_by_username,create_user,verify_password,engine
 from sqlmodel import Field, SQLModel, create_engine, Session, select
-from datetime import datetime 
 from PIL import Image
+from datetime import datetime 
+
+
+from model import User,RegisterModel,Comment,LoginModel
+from data import get_user_by_username,create_user,verify_password,engine
 from src.face_analysis import FaceAnalysis
-from utils.image import encode_image
+import base64
 
 
-
-
+def encode_image(image):
+    _, buffer = cv2.imencode('.png', image)
+    image_base64 = base64.b64encode(buffer).decode('utf-8')
+    image_uri = f'data:image/png;base64,{image_base64}'
+    return image_uri
 
 app = Flask("Face_Analyez")
 
@@ -106,7 +113,7 @@ def login():
         
         flash("Welcome, you are logged in")
         flask_session["user_id"] = user.id
-        return render_template('service.html')
+        return redirect(url_for('service'))
     flash("Password is incorrect", "#ab0a0a")
     
 
@@ -156,8 +163,11 @@ def  calculator_BMR():
         return render_template("bmr_result.html", bmr=bmr)
 
 
-from model import User,RegisterModel
 
+@app.route("/mediapipe")
+def mediapipe():
+    
+    return render_template("mediapipe.html")
 @app.route("/admin")
 def admin():
     with Session(engine) as db_session:
@@ -175,6 +185,39 @@ def admin_user():
             user.jon_time = relative_time(data_time=user.jon_time)
         
     return render_template("admin_users.html",users=users)
+
+@app.route("/admin_comment")
+def admin_comment():
+      if request.method == "GET":
+        with Session(engine) as db_session:
+            statement = select(Comment)
+            comments = list(db_session.exec(statement))
+            for comment in comments:
+                print(comment)
+            return render_template("admin_comment.html",comments=comments)
+
+
+@app.route("/service", methods=['GET'])
+def service():
+      if request.method == "GET":
+        with Session(engine) as db_session:
+            statement = select(Comment)
+            comments = list(db_session.exec(statement))
+            for comment in comments:
+                print(comment)
+            return render_template("service.html",comments=comments)
+
+
+@app.route("/add-new-comment", methods=['POST'])
+def add_new_comment():
+    if request.method == "POST":
+        text = request.form["text"]
+        with Session(engine) as db_session:
+            new_comment = Comment(user_id=flask_session.get('user_id'), content=text)
+            db_session.add(new_comment)
+            db_session.commit()
+
+            return redirect(url_for("service"))
 
 if __name__ == '__main__':
     app.run(debug=True)
