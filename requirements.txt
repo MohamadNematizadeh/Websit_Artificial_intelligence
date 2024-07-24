@@ -1,8 +1,11 @@
 flask
-opencv-python-headless
-numpy
+python-dotenv
+bcrypt
 sqlmodel
 pillow
-datetime
-pydantic
-bcrypt
+numpy
+opencv-python-headless
+onnxruntime
+pyyaml
+psycopg2
+scikit-image
