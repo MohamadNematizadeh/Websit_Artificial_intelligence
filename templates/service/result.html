@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+
+{% block title %} register | Face Analyez {% endblock %}
+
+{% block content %}
+
+<section class="sub-banner01 banner-top02 position-relative float-start w-100">
+  <div class="container">
+      <h2 class="text-center text-white">>خروجی عکس شما</h2>
+      <nav>
+          <ol class="breadcrumb justify-content-center mt-4">
+              <li class="breadcrumb-item"><a href="#">خانه</a></li>
+              <li class="breadcrumb-item active" aria-current="page">خروجی عکس شما</li>
+          </ol>
+      </nav>
+  </div>
+</section>
+<section class="contact-us-page d-inline-block w-100 my-5">
+  <div class="container">
+      <div class="container">
+
+    <div class="col-6">
+        <div class="card text-bg-light mb-3">
+            <div class="card-body">
+                <h1 class="card-title">
+                    <i class="fa-duotone fa-face-viewfinder"></i>
+                </h1>
+                {% if image_uri %}
+                <div class="row mt-4">
+                    <div class="col">
+                        <img src="{{ image_uri }}" class="img-fluid">
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="row mt-4">
+                    <div class="col-6">
+                        {% if genders %}
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                جنسیت
+                            </li>
+                            {% for gender in genders %}
+                            <li class="list-group-item">
+                                {{ gender }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                    <div class="col-6">
+                        {% if ages %}
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                سن
+                            </li>
+                            {% for age in ages %}
+                            <li class="list-group-item">
+                                {{ age }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+{%endblock%}

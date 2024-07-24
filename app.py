@@ -1,21 +1,19 @@
 
-import os
 import cv2
+import base64
 import numpy as np
-from pydantic import ValidationError
-
 
 
 from flask import Flask, flash, render_template, request, redirect, url_for, session as flask_session
-from sqlmodel import Field, SQLModel, create_engine, Session, select
+from sqlmodel import Session, select
 from PIL import Image
 from datetime import datetime 
+from pydantic import ValidationError
 
 
-from model import User,RegisterModel,Comment,LoginModel
+from model import User,RegisterModel,Comment,LoginModel,Topic
 from data import get_user_by_username,create_user,verify_password,engine
 from src.face_analysis import FaceAnalysis
-import base64
 
 
 def encode_image(image):
@@ -24,6 +22,8 @@ def encode_image(image):
     image_uri = f'data:image/png;base64,{image_base64}'
     return image_uri
 
+
+
 app = Flask("Face_Analyez")
 
 app.config['UPLOAD_FOLDER'] = 'static/uploads' 
@@ -31,6 +31,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.secret_key = 'supersecretkey'
 
 face_analysis = FaceAnalysis("models/det_10g.onnx", "models/genderage.onnx")
+
 
 def relative_time(data_time):
       input_time = datetime.strptime(data_time,'%Y-%m-%d %H:%M:%S.%f')
@@ -46,6 +47,8 @@ def relative_time(data_time):
       else:
             return f"{int(seconds // 86400)} days ago"
       
+
+
 def allowed_file(file):
      return True
 # Routes
@@ -121,7 +124,7 @@ def login():
 def upload():
      if flask_session.get('user_id'):
         if request.method == "GET":
-            return render_template("upload.html")
+            return render_template("service/upload.html")
         elif request.method == "POST":
             input_image_file = request.files['image']
             if input_image_file.filename == "":
@@ -135,7 +138,7 @@ def upload():
                     output_image, genders, ages = face_analysis.detect_age_gender(input_image)
                     image_uri = encode_image(output_image)
 
-                    return render_template("result.html", genders=genders, ages=ages, image_uri=image_uri)
+                    return render_template("service/result.html", genders=genders, ages=ages, image_uri=image_uri)
         else:
             return redirect(url_for("index"))
            
@@ -143,7 +146,7 @@ def upload():
 @app.route("/BMR",methods=['GET','POST'])
 def  calculator_BMR():
     if request.method == "GET":
-        return render_template("BMR_Calculator.html")
+        return render_template("service/BMR_Calculator.html")
     elif request.method == "POST":
         gender = request.form["gender"]
         weight = float(request.form["weight"])
@@ -160,20 +163,20 @@ def  calculator_BMR():
         else:
             return "Invalid gender. Please select 'Male' or 'Female'."
         
-        return render_template("bmr_result.html", bmr=bmr)
+        return render_template("service/bmr_result.html", bmr=bmr)
 
 
 
 @app.route("/mediapipe")
 def mediapipe():
     
-    return render_template("mediapipe.html")
+    return render_template("service/mediapipe.html")
 @app.route("/admin")
 def admin():
     with Session(engine) as db_session:
         statement = select(User)
         users = list(db_session.exec(statement))
-    return render_template("admin.html" , users=users)
+    return render_template("admin/admin.html" , users=users)
 
 
 @app.route("/admin_users")
@@ -184,7 +187,7 @@ def admin_user():
         for user in users:
             user.jon_time = relative_time(data_time=user.jon_time)
         
-    return render_template("admin_users.html",users=users)
+    return render_template("admin/admin_users.html",users=users)
 
 @app.route("/admin_comment")
 def admin_comment():
@@ -194,7 +197,7 @@ def admin_comment():
             comments = list(db_session.exec(statement))
             for comment in comments:
                 print(comment)
-            return render_template("admin_comment.html",comments=comments)
+            return render_template("admin/admin_comment.html",comments=comments)
 
 
 @app.route("/service", methods=['GET'])
@@ -205,7 +208,7 @@ def service():
             comments = list(db_session.exec(statement))
             for comment in comments:
                 print(comment)
-            return render_template("service.html",comments=comments)
+            return render_template("service/service.html",comments=comments)
 
 
 @app.route("/add-new-comment", methods=['POST'])
@@ -216,8 +219,56 @@ def add_new_comment():
             new_comment = Comment(user_id=flask_session.get('user_id'), content=text)
             db_session.add(new_comment)
             db_session.commit()
-
             return redirect(url_for("service"))
 
+
+
+@app.route("/admin_blog", methods=['GET', 'POST'])
+def admin_blog():
+    if request.method == "GET":
+        with Session(engine) as db_session:
+            topics = list(db_session.exec(select(Topic)))
+        return render_template("admin/admin_blog.html", topics=topics)
+
+@app.route("/add-new-blog", methods=['POST'])
+def add_new_blog():
+    title = request.form["title"]
+    text = request.form["text"]
+    with Session(engine) as db_session:
+        new_topic = Topic(user_id=flask_session.get('user_id'), text=text, title=title, timestamp=datetime.datetime.now())
+        db_session.add(new_topic)
+        db_session.commit()
+    return redirect(url_for("admin_blog"))
+
+@app.route("/del-blog/<int:id>", methods=['POST'])
+def del_blog(id):
+    with Session(engine) as db_session:
+        topic_to_delete = db_session.get(Topic, id)
+        if topic_to_delete:
+            db_session.delete(topic_to_delete)
+            db_session.commit()
+    return redirect(url_for("admin_blog"))
+
+@app.route("/edit_blog", methods=['POST'])
+def edit_blog():
+    topic_id = request.form["id"]
+    title = request.form["title"]
+    text = request.form["text"]
+    with Session(engine) as db_session:
+        topic_to_edit = db_session.get(Topic, topic_id)
+        if topic_to_edit:
+            topic_to_edit.title = title
+            topic_to_edit.text = text
+            db_session.commit()
+    return redirect(url_for("admin_blog"))
+
+@app.route("/blog/")
+def blog():
+    with Session(engine) as db_session:
+        statement = select(Topic)
+        topics = list(db_session.exec(statement))
+        # for topic in topics:
+        #     topic.timestamp = relative_time(data_time=topic.timestamp)
+    return render_template("blog.html", topics=topics)
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True ,port=8000)

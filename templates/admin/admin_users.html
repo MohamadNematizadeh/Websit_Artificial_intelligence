@@ -1,0 +1,51 @@
+{% extends 'layout_admin.html' %}
+{% block content %}
+                <div class="row gx-4">
+                    <div class="col-xxl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3> کاربران</h3>
+
+                                <div class="table-outer">
+                                    <div class="table-responsive">
+
+                                        <table class="table align-middle truncate">
+                                            <thead>
+                                                <tr>
+
+                                                    <th>نام</th>
+                                                    <th>نام کاربری</th>
+                                                    <th>ایمیل</th>
+                                                    <th>سن</th>
+                                                    <th>شهر</th>
+                                                    <th>تاریخ</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for user in users %}
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex flex-row align-items-center">
+                                                            <p class="m-0">{{user.first_name}} {{user.last_name }}</p>
+                                                        </div>
+                                                    </td>
+                                                    <td><span class=""></span>{{user.username}}</td>
+                                                    <td><span class=""></span>{{user.email}}</td>
+                                                    <td><span class=""></span>{{user.age}}</td>
+                                                    <td><span class=""></span>{{user.city}}</td>
+                                                    <td><span class=""></span>{{user.jon_time}}</td>
+                                                </tr>
+                                                {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endblock %}

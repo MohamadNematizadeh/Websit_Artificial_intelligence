@@ -1,0 +1,125 @@
+{% extends 'layout_admin.html' %}
+{% block content %}
+<!-- Row starts -->
+<div class="row gx-4">
+  <div class="col-xxl-3 col-sm-6 col-12">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="p-1 border border-primary rounded-circle me-3">
+            <div id="radial1"></div>
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mt-1">
+          <a class="text-primary" href="javascript:void(0);">
+            <span>View All</span>
+            <i class="bi bi-arrow-right ms-2"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-3 col-sm-6 col-12">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="p-1 border border-success rounded-circle me-3">
+            <div id="radial2"></div>
+          </div>
+          <div class="d-flex flex-column">
+            <h2 class="lh-1">3 عدد </h2>
+            <p class="m-0 opacity-50">تعداد محصولات در سایت </p>
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mt-1">
+          <a class="text-primary" href="javascript:void(0);">
+            <span>View All</span>
+            <i class="bi bi-arrow-right ms-2"></i>
+          </a>
+          <div class="text-end">
+            <p class="mb-0 text-success">+30%</p>
+            <span class="badge bg-success-subtle text-success small">this month</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- Row ends -->
+
+<!-- Row starts -->
+
+
+<!-- Row starts -->
+<div class="row gx-4">
+  <div class="col-xxl-12">
+    <div class="card">
+      <div class="card-body">
+        <h3> سرویس ها</h3>
+
+        <div class="table-outer">
+          <div class="table-responsive">
+
+            <table class="table align-middle truncate">
+              <thead>
+                <tr>
+
+                  <th>نام</th>
+                  <th>توضیحات</th>
+                  <th> </th>
+                  <th> </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="d-flex flex-row align-items-center">
+                      <img src="" class="img-5x rounded-2" alt="Google Admin" />
+                      <div class="d-flex flex-column ms-3">
+                        <p class="m-0">تشخیص دادن چهره</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="badge bg-success-subtle text-success">این سرویس میتوان برای شما از تشخیص چهره میتوانه
+                      سن شما رو تشخیص بدهد</span></td>
+                  <td>
+
+                <tr>
+                  <td>
+                    <div class="d-flex flex-row align-items-center">
+                      <img src="" class="img-5x rounded-2" alt="Google Admin" />
+                      <div class="d-flex flex-column ms-3">
+                        <p class="m-0">حساب کردن bmr</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="badge bg-success-subtle text-success">این سرویس میتواند برای شما bmr محاسب
+                      کرده</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="d-flex flex-row align-items-center">
+                      <img src="" class="img-5x rounded-2" alt="Google Admin" />
+                      <div class="d-flex flex-column ms-3">
+                        <p class="m-0">تشخیص حرکت بدن </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="badge bg-success-subtle text-success">در این سرویس با استفاده از mediapipe میتواند
+                      حرکت های بدن تشخیص بدهد</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Row ends -->
+
+</div>
+<!-- App body ends -->
+
+{% endblock %}

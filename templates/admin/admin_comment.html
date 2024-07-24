@@ -1,0 +1,43 @@
+{% extends 'layout_admin.html' %}
+{% block content %}
+            <div class="app-body">
+                <div class="row gx-4">
+                    <div class="col-xxl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3> کامنت ها</h3>
+
+                                <div class="table-outer">
+                                    <div class="table-responsive">
+
+                                        <table class="table align-middle truncate">
+                                            <thead>
+                                                <tr>
+
+                                                    <th>نام کاربری</th>
+                                                    <th>متن کامنت</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for comment in comments %}
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex flex-row align-items-center">
+                                                        </div>
+                                                    </td>
+                                                    <td><span class=""></span>{{ comment.content }}</td>
+                                                    
+                                                </tr>
+                                                {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            {% endblock %}
