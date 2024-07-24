@@ -1,4 +1,8 @@
 flask
-pydantic
+opencv-python-headless
+numpy
 sqlmodel
+pillow
+datetime
+pydantic
 bcrypt
