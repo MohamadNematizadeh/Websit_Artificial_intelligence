@@ -1,7 +1,7 @@
 import os
 import bcrypt
-import datetime
-
+from datetime import datetime
+from dotenv import load_dotenv
 from sqlmodel import Field, SQLModel, create_engine, Session, select
 from model import User,RegisterModel
 
