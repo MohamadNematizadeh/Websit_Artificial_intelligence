@@ -6,23 +6,7 @@ from sqlmodel import Field, SQLModel, create_engine, Session, select
 from model import User, RegisterModel
 
 # Load environment variables
-load_dotenv()
-
-# Verify if environment variables are loaded
-DATABASE_HOST = os.getenv("DATABASE_HOST")
-DATABASE_USER = os.getenv("DATABASE_USER")
-DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD")
-DATABASE_NAME = os.getenv("DATABASE_NAME")
-DATABASE_URL = (
-    f"postgresql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_NAME}"
-)
-
-print("DATABASE_HOST:", DATABASE_HOST)
-print("DATABASE_USER:", DATABASE_USER)
-print("DATABASE_PASSWORD:", DATABASE_PASSWORD)
-print("DATABASE_NAME:", DATABASE_NAME)
-print("DATABASE_URL:", DATABASE_URL)
-
+DATABASE_URL = "postgresql://root:Sma02oIAV3LtDqBN3zV8f4L8@naughty-mendel-mljsmpgba-db:5432/postgres"
 # Create database engine
 engine = create_engine(DATABASE_URL, echo=True)
 
