@@ -5,8 +5,14 @@ from dotenv import load_dotenv
 from sqlmodel import Field, SQLModel, create_engine, Session, select
 from model import User, RegisterModel
 
-# Load environment variables
-DATABASE_URL = "postgresql://root:Sma02oIAV3LtDqBN3zV8f4L8@naughty-mendel-mljsmpgba-db:5432/postgres"
+DATABASE_HOST="ep-dawn-truth-a2uj6c20.eu-central-1.pg.koyeb.app"
+DATABASE_USER="koyeb-adm"
+DATABASE_PASSWORD="KpZRWrg0uEQ4"
+DATABASE_NAME="koyebdb"
+DATABASE_URL = (
+    f"postgresql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_NAME}"
+)
+
 # Create database engine
 engine = create_engine(DATABASE_URL, echo=True)
 
