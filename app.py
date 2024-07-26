@@ -267,8 +267,6 @@ def blog():
     with Session(engine) as db_session:
         statement = select(Topic)
         topics = list(db_session.exec(statement))
-        # for topic in topics:
-        #     topic.timestamp = relative_time(data_time=topic.timestamp)
     return render_template("blog.html", topics=topics)
     
 if __name__ == "__main__":
