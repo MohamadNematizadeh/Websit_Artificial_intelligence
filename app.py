@@ -235,7 +235,7 @@ def add_new_blog():
     title = request.form["title"]
     text = request.form["text"]
     with Session(engine) as db_session:
-        new_topic = Topic(user_id=flask_session.get('user_id'), text=text, title=title, timestamp=datetime.datetime.now())
+        new_topic = Topic(user_id=flask_session.get('user_id'), text=text, title=title, timestamp=datetime.now())
         db_session.add(new_topic)
         db_session.commit()
     return redirect(url_for("admin_blog"))
@@ -270,4 +270,4 @@ def blog():
     return render_template("blog.html", topics=topics)
     
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+    app.run(debug=True)
