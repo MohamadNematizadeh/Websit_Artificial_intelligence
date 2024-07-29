@@ -1,16 +1,13 @@
+import os 
 import bcrypt
 import datetime
-import os
 
 from sqlmodel import Field, SQLModel, create_engine, Session, select
 from model import User,RegisterModel
 from dotenv import load_dotenv
 
-
 # DATABASE_URL = "postgresql://akbar_agha:ramze_akbar_agha@some-postgres:5432/database_akbar_agha"
 # DATABASE_URL = 'sqlite:///./database.db'
-# engine = create_engine(DATABASE_URL, echo=True)
-
 load_dotenv()
 DATABASE_HOST = os.getenv("DATABASE_HOST")
 DATABASE_USER = os.getenv("DATABASE_USER")
@@ -19,7 +16,6 @@ DATABASE_NAME = os.getenv("DATABASE_NAME")
 DATABASE_URL = (
     f"postgresql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_NAME}"
 )
-
 # Create database engine
 engine = create_engine(DATABASE_URL, echo=True)
 
@@ -41,6 +37,7 @@ def create_user(user_data: RegisterModel):
         age=user_data.age,
         city=user_data.city,
         country=user_data.country,
+        role = "User",
         jon_time=datetime.datetime.now(),
         password_hash=password_hash  # Store as string
     )

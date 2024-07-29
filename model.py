@@ -11,7 +11,8 @@ class User(SQLModel, table=True):
     age: str = Field()
     city: str = Field()
     country: str = Field()
-    jon_time:str = Field()
+    role:str=Field()
+    jon_time:datetime = Field(default_factory=datetime.now)
     password_hash: str
 
 class Comment(SQLModel, table=True):

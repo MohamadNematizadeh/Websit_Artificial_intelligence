@@ -13,10 +13,10 @@
     <title>{% block title %} {% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/font-awesome.min.css')}}">
-    <link href="{{url_for('static',filename='css/all.min.css')}} " rel="stylesheet">
-    <link href="{{url_for('static',filename='css/style.min.css')}}" rel="stylesheet">
-    <link rel="stylesheet" href="{{url_for('static',filename='css/owl.carousel.min.css')}}" />
-    <link rel="stylesheet" href="{{url_for('static',filename='css/owl.theme.default.min.css')}}" />
+    <link href="{{url_for('static',filename='/css/all.min.css')}} " rel="stylesheet">
+    <link href="{{url_for('static',filename='/css/style.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static',filename='/css/owl.carousel.min.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static',filename='/css/owl.theme.default.min.css')}}" />
 </head>
 <body style="font-family: Vazirmatn, sans-serif;">
 
@@ -30,13 +30,13 @@
 
 {% include "footer.html" %}
 
-    <script src="{{url_for('static',filename='js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{url_for('static',filename='js/font-awesome.min.js')}}"></script>
+    <script src="{{url_for('static',filename='/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url_for('static',filename='/js/font-awesome.min.js')}}"></script>
 
-    <script src="{{url_for('static',filename='js/jquery.min.js')}}"></script>
-    <script src="{{url_for('static',filename='js/mixitup.min.js')}}"></script>
-    <script src="{{url_for('static',filename='js/custom.js')}}"></script>
-    <script src="{{url_for('static',filename='js/text-ani.js')}}"></script>
-    <script src="{{url_for('static',filename='js/owl.carousel.min.js')}}"></script>
+    <script src="{{url_for('static',filename='/js/jquery.min.js')}}"></script>
+    <script src="{{url_for('static',filename='/js/mixitup.min.js')}}"></script>
+    <script src="{{url_for('static',filename='/js/custom.js')}}"></script>
+    <script src="{{url_for('static',filename='/js/text-ani.js')}}"></script>
+    <script src="{{url_for('static',filename='/js/owl.carousel.min.js')}}"></script>
 </body>
 </html>

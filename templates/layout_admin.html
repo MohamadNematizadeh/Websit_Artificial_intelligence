@@ -15,10 +15,13 @@
     <meta property="og:type" content="Website">
     <meta property="og:site_name" content="Bootstrap Gallery">
     <link rel="shortcut icon" href="static/images/favicon.svg" />
+    
+    <link rel="stylesheet" href="{{url_for('static',filename='/fonts/bootstrap/bootstrap-icons.min.css')}}" />
 
-    <link rel="stylesheet" href="static/fonts/bootstrap/bootstrap-icons.min.css" />
-    <link rel="stylesheet" href="static/css/main.min.css" />
-    <link rel="stylesheet" href="static/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+    <link rel="stylesheet" href="{{url_for('static',filename='/css/main.min.css')}}" />
+
+    <link rel="stylesheet" href="{{url_for('static',filename='/vendor/overlay-scroll/OverlayScrollbars.min.css')}}" />
+
 </head>
 
 <body>
@@ -37,19 +40,19 @@
                             </a>
                         </li>
                         <li>
-                            <a href="admin_users">
+                            <a href="/admin/users">
                                 <i class="bi bi-shop-window"></i>
                                 <span class="menu-text">کاربران</span>
                             </a>
                         </li>
                         <li>
-                            <a href="admin_blog">
+                            <a href="/admin/blog">
                                 <i class="bi bi-shop-window"></i>
                                 <span class="menu-text">ویلاک ها </span>
                             </a>
                         </li>
                         <li>
-                            <a href="admin_comment">
+                            <a href="/admin/comment">
                                 <i class="bi bi-shop-window"></i>
                                 <span class="menu-text">مدریت کامنت ها</span>
                             </a>

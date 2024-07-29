@@ -5,7 +5,7 @@
 {% block content %}
 <section class="sub-banner01 banner-top02 position-relative float-start w-100">
     <div class="container">
-        <h2 class="text-center text-white">وبلاک</h2>
+        <h2 class="text-center text-white">{{ topic.title}}</h2>
         <nav>
             <ol class="breadcrumb justify-content-center mt-4">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -17,16 +17,10 @@
 <section class="contact-us-page d-inline-block w-100 my-5">
     <div class="container">
         <div class="container">
-            <div class="list-group">
-            {% for  topic in topics %}
-                <a href="/blog/{{ topic.id }}" class="list-group-item list-group-item-action " aria-current="true">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{ topic.title}}</h5>
-                    <small>{{ topic.timestamp}}</small>
+                    <imag src="{{topic.image}}">
                   </div>
-                  <p class="mb-1">{{ topic.text}}</p>
+                  <p class="mb-1 text-white">{{ topic.text}}</p>
                 </a>
-                {% endfor %}
               </div>
         </div>
     </div>
