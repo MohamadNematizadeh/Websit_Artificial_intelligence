@@ -3,22 +3,21 @@
 {% block title %} Home | ابزار هوش {% endblock %}
 
 {% block content %}
-
 <section class="banner-part banner-top02 position-relative float-start w-100">
     <div class="container">
-        <div class="row align-items-center g-5 text-center text-lg-start">
-            <div class="col-12 col-lg-6">
+        <div class="row row-cols-1 row-cols-lg-2 align-items-center g-5">
+            <div class="col">
                 <div class="text-white">
-                    <h2>این سامانه میتونه برات
+                    <h2>  این سامانه میتونه برات 
                         <a href="#" class="typewrite" data-period="200" data-type='["آنالیز چهره انجام بده","تشخیص اشیا انجام بده","Pose Detectionانجام بده "]'>
                             <span class="wrap"></span>
                         </a>
                     </h2>
                 </div>
             </div>
-            <div class="col-12 col-lg-6">
+            <div class="col">
                 <figure class="ritu-pic">
-                    <img alt="sui" src="{{url_for('static',filename='images/roubt.png')}}" class="img-fluid" />
+                    <img alt="sui" src="{{url_for('static',filename='/images/roubt.png')}}" />
                 </figure>
             </div>
         </div>
@@ -40,7 +39,7 @@
                 </div>
                 <div class="col">
                     <figure class="mo">
-                        <img src="{{url_for('static',filename='images/get_started_image.png')}}"
+                        <img src="{{url_for('static',filename='/images/get_started_image.png')}}"
                             style="display: flex;" />
                     </figure>
                 </div>
