@@ -1,7 +1,3 @@
-
-
-
-
 from flask import Flask, render_template, request, redirect, url_for, flash, session as flask_session
 from sqlmodel import Session, select
 from model import User, Comment, Topic,RegisterModel , LoginModel
@@ -19,23 +15,10 @@ app = Flask("AI Web App")
 app.secret_key = "my_secret_key"
 app.config["UPLOAD_FOLDER"] = "./uploads"
 
-ai_face_analysis_microservice_url = "http://127.0.0.1:8000/analyze-face"
-
-
-
-
-
-# def encode_image(image):
-#     _, buffer = cv2.imencode('.png', image)
-#     image_base64 = base64.b64encode(buffer).decode('utf-8')
-#     image_uri = f'data:image/png;base64,{image_base64}'
-#     return image_uri
-    
+ai_face_analysis_microservice_url = "https://pydeploy-zv3n.onrender.com/analyze-face"
 def relative_time(data_time):
-    # Check if data_time is a string and parse it
     if isinstance(data_time, str):
         data_time = datetime.strptime(data_time, '%Y-%m-%d %H:%M:%S')
-    
     current_time = datetime.now()
     time_difference = current_time - data_time
     seconds = time_difference.total_seconds()
