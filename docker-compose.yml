@@ -23,17 +23,14 @@ services:
     depends_on:
       - postgres
 
-  # api:
-  #   image: api_name
-  #   container_name: api_name
-  #   networks:
-  #     - ai_network
-  #   ports:
-  #     - "8000:8000"
-  #   volumes:
-  #     - .:/myapp
-  #   depends_on:
-  #     - postgres
+  fastapi-app:
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
 networks:
   ai_network:
