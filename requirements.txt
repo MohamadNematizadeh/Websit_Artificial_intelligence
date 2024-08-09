@@ -5,6 +5,7 @@ pillow
 numpy
 python-dotenv
 onnxruntime
+requests
 pyyaml
 psycopg2
 scikit-image
