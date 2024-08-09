@@ -4,4 +4,6 @@ uvicorn
 pydantic
 onnxruntime
 numpy
-opencv-python-headless
+opencv-python
+scikit-image
+numpy
